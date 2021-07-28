@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Environ config
+env = environ.Env()
+env.read_env(str(BASE_DIR / ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -76,10 +80,10 @@ WSGI_APPLICATION = "seguridad.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "seguridad",
-        "USER": "postgres",
-        "PASSWORD": "remon123",
-        "HOST": "seguridad-batabase.c43zhw2zyqz8.us-east-1.rds.amazonaws.com",
+        "NAME": env.str("NAME_DB"),
+        "USER": env.str("USER_DB"),
+        "PASSWORD": env.str("PASSWORD_DB"),
+        "HOST": env.str("HOST_DB"),
         "PORT": 5432,
     }
 }
