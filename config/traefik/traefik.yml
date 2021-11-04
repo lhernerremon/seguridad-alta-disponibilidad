@@ -38,8 +38,9 @@ http:
   services:
     django:
       loadBalancer:
-        server:
-          port: 8000
+        serversTransport: apiTransport
+        servers:
+          - url: http://django_app:8000
 
 certificatesResolvers:
   letsencrypt:
