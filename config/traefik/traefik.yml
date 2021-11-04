@@ -40,7 +40,7 @@ http:
       loadBalancer:
         serversTransport: apiTransport
         servers:
-          - url: http://django_app:8000
+          - url: http://django:8000
 
 certificatesResolvers:
   letsencrypt:
