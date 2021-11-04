@@ -23,7 +23,7 @@ http:
       middlewares:
         # - auth
         - csrf
-      service: django
+      service: api@internal
       tls:
         certResolver: letsencrypt
   middlewares:
