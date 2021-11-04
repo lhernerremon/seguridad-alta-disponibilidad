@@ -8,7 +8,7 @@ services:
     depends_on:
       - postgres
     labels:
-      - traefik.http.routers.django.rule=Host(`api.rrqq.me`)
+      - traefik.http.routers.https.rule=Host(`api.rrqq.me`)
       - traefik.http.routers.https.entrypoints=https
       - traefik.http.routers.https.tls=true
       - traefik.http.routers.https.tls.certresolver=letsencrypt
