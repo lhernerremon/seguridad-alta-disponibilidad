@@ -32,7 +32,7 @@ services:
   traefik:
     build:
       context: .
-      dockerfile: ./compose/production/traefik/Dockerfile
+      dockerfile: ./config/traefik/Dockerfile
     depends_on:
       - django_app
     volumes:
