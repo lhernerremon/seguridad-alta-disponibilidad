@@ -14,7 +14,7 @@ services:
       - .:/app:z
     depends_on:
       - postgres
-    # command: gunicorn --bind 0.0.0.0:8000 seguridad.wsgi
+    command: /usr/local/bin/gunicorn seguridad.wsgi --bind 0.0.0.0:5000 --chdir=/app --timeout 60
     # command: python seguridad/manage.py runserver
 
   postgres:

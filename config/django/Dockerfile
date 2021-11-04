@@ -24,4 +24,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["gunicorn", "-c", "config/gunicorn/conf.py", "--bind", ":8000", "--chdir", "seguridad", "seguridad.wsgi:application"]
+# CMD ["gunicorn", "-c", "config/gunicorn/conf.py", "--bind", ":8000", "--chdir", "seguridad", "seguridad.wsgi:application"]
