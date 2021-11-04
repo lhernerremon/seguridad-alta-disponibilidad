@@ -157,12 +157,12 @@ else:
     aws_s3_domain = AWS_S3_CUSTOM_DOMAIN or f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
 
     # STATIC
-    STATICFILES_STORAGE = "core.utils.storages.StaticRootS3Boto3Storage"
+    STATICFILES_STORAGE = "utils.storages.StaticRootS3Boto3Storage"
     COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
     STATIC_URL = f"https://{aws_s3_domain}/static/"
 
     # MEDIA
-    DEFAULT_FILE_STORAGE = "core.utils.storages.MediaRootS3Boto3Storage"
+    DEFAULT_FILE_STORAGE = "utils.storages.MediaRootS3Boto3Storage"
     MEDIA_URL = f"https://{aws_s3_domain}/media/"
 
     # Collectfast
