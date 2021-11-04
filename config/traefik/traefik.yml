@@ -63,12 +63,6 @@ http:
       headers:
         hostsProxyHeaders: ["X-CSRFToken"]
 
-  services:
-    django:
-      loadBalancer:
-        servers:
-          - url: http://django:8000
-
 providers:
   # https://docs.traefik.io/master/providers/file/
   file:
