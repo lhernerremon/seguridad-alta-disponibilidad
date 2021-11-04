@@ -4,33 +4,33 @@ log:
 entryPoints:
   web:
     address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: web-secure
   web-secure:
     address: ":443"
 
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "lherner21@gmail.com"
+      storage: /etc/traefik/acme/acme.json
+      httpChallenge:
+        entryPoint: web
+
 http:
   routers:
-    web-router:
-      rule: "Host(`api.rrqq.me`)"
-      entryPoints:
-        - web
-      middlewares:
-        - redirect-to-https
-        - csrf
     web-secure-router:
       rule: "Host(`api.rrqq.me`)"
       entryPoints:
         - web-secure
       middlewares:
-        # - auth
         - csrf
       service: django
       tls:
         certResolver: letsencrypt
   middlewares:
-    redirect-to-https:
-      redirectScheme:
-        scheme: https
-        permanent: true
     csrf:
       headers:
         hostsProxyHeaders: ["X-CSRFToken"]
@@ -40,16 +40,6 @@ http:
       loadBalancer:
         servers:
           - url: http://django:5000
-
-certificatesResolvers:
-  letsencrypt:
-    # https://docs.traefik.io/master/https/acme/#lets-encrypt
-    acme:
-      email: "lherner21@gmail.com"
-      storage: /etc/traefik/acme/acme.json
-      # https://docs.traefik.io/master/https/acme/#httpchallenge
-      httpChallenge:
-        entryPoint: web
 
 providers:
   # https://docs.traefik.io/master/providers/file/
