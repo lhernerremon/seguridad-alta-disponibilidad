@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -125,5 +126,44 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+MEDIA_URL = "/media/"
+if DEBUG:
+    MEDIA_ROOT = str(BASE_DIR / "media/")
+    MEDIA_URL = "/media/"
+
+    # Static files (CSS, JavaScript, Images)
+    STATIC_URL = "/static_prod/"
+    STATIC_ROOT = "static_prod/"
+else:
+    # Storages
+    INSTALLED_APPS += ["storages"]
+    AWS_ACCESS_KEY_ID = "AKIAX5TBQKTONOIF7WTM"
+    AWS_SECRET_ACCESS_KEY = "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"
+    AWS_STORAGE_BUCKET_NAME = "rrqq-nuxt"
+    AWS_QUERYSTRING_AUTH = False
+    _AWS_EXPIRY = 60 * 60 * 24 * 7
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": f"max-age={_AWS_EXPIRY}, s-maxage={_AWS_EXPIRY}, must-revalidate"
+    }
+    AWS_S3_REGION_NAME = None
+    AWS_S3_CUSTOM_DOMAIN = None
+    aws_s3_domain = AWS_S3_CUSTOM_DOMAIN or f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+    # STATIC
+    STATICFILES_STORAGE = "core.utils.storages.StaticRootS3Boto3Storage"
+    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
+    STATIC_URL = f"https://{aws_s3_domain}/static/"
+
+    # MEDIA
+    DEFAULT_FILE_STORAGE = "core.utils.storages.MediaRootS3Boto3Storage"
+    MEDIA_URL = f"https://{aws_s3_domain}/media/"
+
+    # Collectfast
+    INSTALLED_APPS = ["collectfast"] + INSTALLED_APPS
