@@ -28,7 +28,7 @@ env.read_env(str(BASE_DIR / ".env"))
 SECRET_KEY = "*qg95zt*%1j^=3)#fx#5(46ljd9g0itpv98k4(eqi_(2ad!3&@"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
