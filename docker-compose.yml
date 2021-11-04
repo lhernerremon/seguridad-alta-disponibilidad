@@ -8,16 +8,16 @@ services:
     depends_on:
       - postgres
     labels:
-      - traefik.http.routers.https.rule=Host(`api.rrqq.me`)
-      - traefik.http.routers.https.entrypoints=https
-      - traefik.http.routers.https.tls=true
-      - traefik.http.routers.https.tls.certresolver=letsencrypt
-
+      - traefik.enable=true
+      - traefik.http.routers.django.rule=Host(`api.rrqq.me`)
+      - traefik.http.routers.django.entrypoints=https
+      - traefik.http.routers.django.tls=true
+      - traefik.http.routers.django.tls.certresolver=letsencrypt
 
   postgres:
     image: postgres:12.3
     volumes:
-      - postgres_data:/var/lib/postgresql/datata
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=seguridad
       - POSTGRES_USER=postgres
@@ -26,40 +26,22 @@ services:
 
   traefik:
     image: traefik:v2.0-alpine
-    command:
-      - --entrypoints.http.address=:80
-      - --entrypoints.https.address=:443
-      - --providers.docker
-
-      - --api
-
-      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
-      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http
-      - --certificatesresolvers.letsencrypt.acme.email=lherner21@gmail.com
-      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
     ports:
       - "80:80"
       - "443:443"
-    labels:
-      - traefik.http.routers.to-https.rule=HostRegexp(`{host:.+}`)
-      - traefik.http.routers.to-https.entrypoints=http
-      - traefik.http.routers.to-https.middlewares=redirect-to-https
-
-      - traefik.http.routers.web-router.rule=Host(`api.rrqq.me`)
-      - traefik.http.routers.web-router.entrypoints=https
-      - traefik.http.routers.web-router.middlewares=auth
-      - traefik.http.routers.web-router.service=api@internal
-      - traefik.http.routers.web-router.tls=true
-      - traefik.http.routers.web-router-https.tls.certresolver=letsencrypt
-
-      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-
     volumes:
-      - data_traefik:/etc/traefik/acme:z
-      - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/traefik/traefik.toml:/etc/traefik/traefik.toml
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.http.routers.web-router.rule=Host(`api.rrqq.me`)
+    #   - traefik.http.routers.web-router.middlewares=auth
+    #   - traefik.http.routers.web-router.service=api@internal
+    #   - traefik.http.routers.web-router.tls.certresolver=letsencrypt
+    #   - traefik.http.routers.web-router.tls=true
+
 
 volumes:
   .:
-  postgres_data: {}
-  data_traefik: {}
+  postgres_data:
+  # traefik-public-certificates:
