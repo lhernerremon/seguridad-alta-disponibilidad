@@ -1,5 +1,10 @@
 version: "3"
 
+volumes:
+  .:
+  postgres_data: {}
+  data_traefik: {}
+
 services: 
   django_app:
     build: .
@@ -25,23 +30,13 @@ services:
     
 
   traefik:
-    image: traefik:v2.0-alpine
-    ports:
-      - "80:80"
-      - "443:443"
+    build:
+      context: .
+      dockerfile: ./compose/production/traefik/Dockerfile
+    depends_on:
+      - django_app
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./config/traefik/traefik.toml:/etc/traefik/traefik.toml
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.http.routers.web-router.rule=Host(`api.rrqq.me`)
-    #   - traefik.http.routers.web-router.middlewares=auth
-    #   - traefik.http.routers.web-router.service=api@internal
-    #   - traefik.http.routers.web-router.tls.certresolver=letsencrypt
-    #   - traefik.http.routers.web-router.tls=true
-
-
-volumes:
-  .:
-  postgres_data:
-  # traefik-public-certificates:
+      - data_traefik:/etc/traefik/acme:z
+    ports:
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"

@@ -1,0 +1,52 @@
+log:
+  level: INFO
+
+entryPoints:
+  web:
+    address: ":80"
+  web-secure:
+    address: ":443"
+
+http:
+  routers:
+    web-router:
+      rule: HostRegexp(`{host:.+}`)
+      entryPoints:
+        - web
+      middlewares:
+        - redirect-to-https
+    redirect-to-https:
+      rule: Host(`nuxt.rrqq.me`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - auth
+        - csrf
+      service:
+        - api@internal
+      tls:
+        certResolver: letsencrypt
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    csrf:
+      headers:
+        hostsProxyHeaders: ["X-CSRFToken"]
+
+certificatesResolvers:
+  letsencrypt:
+    # https://docs.traefik.io/master/https/acme/#lets-encrypt
+    acme:
+      email: "lherner21@gmail.com"
+      storage: /etc/traefik/acme/acme.json
+      # https://docs.traefik.io/master/https/acme/#httpchallenge
+      httpChallenge:
+        entryPoint: web
+
+providers:
+  # https://docs.traefik.io/master/providers/file/
+  file:
+    filename: /etc/traefik/traefik.yml
+    watch: true

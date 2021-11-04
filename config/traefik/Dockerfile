@@ -1,0 +1,5 @@
+FROM traefik:v2.0-alpine
+RUN mkdir -p /etc/traefik/acme
+RUN touch /etc/traefik/acme/acme.json
+RUN chmod 600 /etc/traefik/acme/acme.json
+COPY ./config/traefik/traefik.yml /etc/traefik
