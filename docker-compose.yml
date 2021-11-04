@@ -17,7 +17,7 @@ services:
   postgres:
     image: postgres:12.3
     volumes:
-      - ./data/db:/var/lib/postgresql/datata
+      - postgres_data:/var/lib/postgresql/datata
     environment:
       - POSTGRES_DB=seguridad
       - POSTGRES_USER=postgres
@@ -28,8 +28,8 @@ services:
     image: traefik:v2.0-alpine
     command: --providers.docker
     ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
+      - "80:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
