@@ -22,4 +22,4 @@ COPY . /app/
 
 RUN pip install -r requirements.txt
 
-CMD ["gunicorn", "-c", "config/gunicorn/conf.py", "--bind", ":8000", "--chdir", "seguridad", "seguridad.wsgi:application"]
+CMD ["gunicorn", "-c", "config/gunicorn/conf.py", "--bind", "0.0.0.0:5000", "--chdir", "seguridad", "seguridad.wsgi:application"]
