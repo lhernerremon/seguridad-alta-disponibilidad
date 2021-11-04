@@ -21,7 +21,7 @@ http:
       entryPoints:
         - web-secure
       middlewares:
-        - auth
+        # - auth
         - csrf
       service: django
       tls:
@@ -38,7 +38,7 @@ http:
   services:
     django:
       loadBalancer:
-        server:
+        django_app:
           port: 8000
 
 certificatesResolvers:
