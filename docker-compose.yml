@@ -45,7 +45,7 @@ services:
       - traefik.http.routers.to-https.entrypoints=http
       - traefik.http.routers.to-https.middlewares=redirect-to-https
 
-      - traefik.http.routers.web-router.rule=Host(`nuxt.rrqq.me`)
+      - traefik.http.routers.web-router.rule=Host(`api.rrqq.me`)
       - traefik.http.routers.web-router.entrypoints=https
       - traefik.http.routers.web-router.middlewares=auth
       - traefik.http.routers.web-router.service=api@internal
