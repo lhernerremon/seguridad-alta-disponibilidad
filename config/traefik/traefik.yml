@@ -23,7 +23,7 @@ http:
       middlewares:
         - auth
         - csrf
-      # service: django
+      service: django
       tls:
         certResolver: letsencrypt
   middlewares:
@@ -38,7 +38,8 @@ http:
   services:
     django:
       loadBalancer:
-        port: 8000
+        server:
+          port: 8000
 
 certificatesResolvers:
   letsencrypt:
