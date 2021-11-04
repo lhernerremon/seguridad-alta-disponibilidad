@@ -6,15 +6,16 @@ volumes:
   data_traefik: {}
 
 services: 
-  django_app:
+  django:
     build:
       context: .
       dockerfile: ./config/django/Dockerfile
+    image: seguridad_django
     volumes:
       - .:/app:z
     depends_on:
       - postgres
-    command: /usr/local/bin/gunicorn seguridad.wsgi --bind 0.0.0.0:5000 --chdir=/app --timeout 60
+    command: /usr/local/bin/gunicorn --workers=4 seguridad.wsgi --bind 0.0.0.0:5000 --chdir=/app --timeout 60
     # command: python seguridad/manage.py runserver
 
   postgres:
@@ -30,8 +31,9 @@ services:
     build:
       context: .
       dockerfile: ./config/traefik/Dockerfile
+    image: seguridad_traefik
     depends_on:
-      - django_app
+      - django
     volumes:
       - data_traefik:/etc/traefik/acme:z
     ports:
