@@ -14,11 +14,9 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-
-RUN mkdir /app
-
 WORKDIR /app
-COPY . /app/
+
+COPY . .
 
 RUN pip install -r requirements.txt
 
