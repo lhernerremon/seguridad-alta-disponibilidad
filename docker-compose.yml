@@ -24,7 +24,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=remon123
     
-
   traefik:
     build:
       context: .
@@ -34,5 +33,5 @@ services:
     volumes:
       - data_traefik:/etc/traefik/acme:z
     ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
+      - "80:80"
+      - "443:443"
