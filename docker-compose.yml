@@ -7,13 +7,15 @@ volumes:
 
 services: 
   django_app:
-    build: .
+    build:
+      context: .
+      dockerfile: ./config/django/Dockerfile
     volumes:
-      - .:/app
-    expose:
-      - 8000
+      - .:/app:z
     depends_on:
       - postgres
+    # command: gunicorn --bind 0.0.0.0:8000 seguridad.wsgi
+    # command: python seguridad/manage.py runserver
 
   postgres:
     image: postgres:12.3
@@ -23,16 +25,7 @@ services:
       - POSTGRES_DB=seguridad
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=remon123
-  
-  nginx:
-    image: nginx:1.21.0-alpine
-    volumes:
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
-    depends_on:
-      - django_app
-    labels: 
-      - "traefik.http.routers.nginx.rule=Host(`api.rrqq.me`)"
-    
+      
   traefik:
     build:
       context: .

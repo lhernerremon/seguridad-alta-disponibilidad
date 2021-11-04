@@ -39,7 +39,7 @@ http:
     django:
       loadBalancer:
         servers:
-          - url: http://django:8000
+          - url: http://docker_django:8000
 
 certificatesResolvers:
   letsencrypt:
