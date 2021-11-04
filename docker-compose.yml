@@ -10,6 +10,8 @@ services:
     build: .
     volumes:
       - .:/app
+    expose:
+      - 8000
     depends_on:
       - postgres
     labels:
