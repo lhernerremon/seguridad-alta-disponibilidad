@@ -22,8 +22,7 @@ http:
       middlewares:
         - auth
         - csrf
-      service:
-        - api@internal
+      service: django
       tls:
         certResolver: letsencrypt
   middlewares:
@@ -34,6 +33,13 @@ http:
     csrf:
       headers:
         hostsProxyHeaders: ["X-CSRFToken"]
+  
+  services:
+    django:
+      loadBalancer:
+        port: 8000
+
+
 
 certificatesResolvers:
   letsencrypt:
