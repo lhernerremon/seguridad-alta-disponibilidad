@@ -14,9 +14,6 @@ services:
       - 8000
     depends_on:
       - postgres
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.django.rule=Host(`api.rrqq.me`)
 
   postgres:
     image: postgres:12.3
