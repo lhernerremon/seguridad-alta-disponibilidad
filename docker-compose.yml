@@ -31,8 +31,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - "./traefik.yml:/traefik.yml:ro"
 
 volumes:
   .:
