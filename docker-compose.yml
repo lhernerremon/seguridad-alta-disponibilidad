@@ -1,26 +1,26 @@
 version: "3"
 
 services: 
-  django:
+  django_app:
     build: .
     volumes:
-      - static:/app/static
+      # - static:/app/static
       - .:/app
 
   nginx:
     image: nginx:1.21.0-alpine
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
-      - static:/app/static
+      # - static:/app/static
     depends_on:
-      - django
+      - django_app
     labels: 
       - "traefik.http.routers.nginx.rule=Host(`api.rrqq.me`)"
 
   traefik:
     image: traefik:v2.0-alpine
     depends_on:
-      - django
+      - nginx
     command: --providers.docker
     ports:
       - "0.0.0.0:80:80"
@@ -30,4 +30,4 @@ services:
 
 volumes:
   .:
-  static:
+  # static:
