@@ -23,7 +23,7 @@ http:
       middlewares:
         # - auth
         - csrf
-      service: api@internal
+      service: django
       tls:
         certResolver: letsencrypt
   middlewares:
@@ -38,7 +38,6 @@ http:
   services:
     django:
       loadBalancer:
-        serversTransport: apiTransport
         servers:
           - url: http://django:8000
 
