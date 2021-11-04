@@ -16,7 +16,7 @@ http:
       middlewares:
         - redirect-to-https
     redirect-to-https:
-      rule: Host(`nuxt.rrqq.me`)
+      rule: Host(`api.rrqq.me`)
       entryPoints:
         - web-secure
       middlewares:

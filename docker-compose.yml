@@ -17,9 +17,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.django.rule=Host(`api.rrqq.me`)
-      - traefik.http.routers.django.entrypoints=https
-      - traefik.http.routers.django.tls=true
-      - traefik.http.routers.django.tls.certresolver=letsencrypt
 
   postgres:
     image: postgres:12.3
