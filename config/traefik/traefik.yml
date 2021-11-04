@@ -38,7 +38,7 @@ http:
   services:
     django:
       loadBalancer:
-        django_app:
+        server:
           port: 8000
 
 certificatesResolvers:
