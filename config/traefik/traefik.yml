@@ -10,13 +10,14 @@ entryPoints:
 http:
   routers:
     web-router:
-      rule: HostRegexp(`{host:.+}`)
+      rule: "Host(`api.rrqq.me`)"
       entryPoints:
         - web
       middlewares:
         - redirect-to-https
-    redirect-to-https:
-      rule: Host(`api.rrqq.me`)
+        - csrf
+    web-secure-router:
+      rule: "Host(`api.rrqq.me`)"
       entryPoints:
         - web-secure
       middlewares:
@@ -38,8 +39,6 @@ http:
     django:
       loadBalancer:
         port: 8000
-
-
 
 certificatesResolvers:
   letsencrypt:
