@@ -23,6 +23,15 @@ services:
       - POSTGRES_DB=seguridad
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=remon123
+  
+  nginx:
+    image: nginx:1.21.0-alpine
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - django_app
+    labels: 
+      - "traefik.http.routers.nginx.rule=Host(`api.rrqq.me`)"
     
   traefik:
     build:
